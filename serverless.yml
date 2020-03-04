@@ -1,0 +1,97 @@
+
+
+service: doorman
+
+provider:
+  name: aws
+  runtime: python3.6
+
+# you can overwrite defaults here
+  stage: dev
+#  region: us-east-1
+
+# you can add statements to the Lambda function's IAM Role here
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "rekognition:DetectFaces"
+        - "rekognition:SearchFacesByImage"
+        - "rekognition:IndexFaces"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+       - "s3:PutObject"
+       - "s3:PutObjectAcl"
+       - "s3:GetObject"
+       - "s3:DeleteObject"
+      Resource:
+        - "arn:aws:s3:::a/*"
+
+ #   - Effect: "Allow"
+ #     Action:
+ #       - "s3:ListBucket"
+ #     Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
+ #   - Effect: "Allow"
+ #     Action:
+ #       - "s3:PutObject"
+ #     Resource:
+ #       Fn::Join:
+ #         - ""
+ #         - - "arn:aws:s3:::"
+ #           - "Ref" : "ServerlessDeploymentBucket"
+ #           - "/*"
+
+# you can define service wide environment variables here
+  environment:
+    BUCKET_NAME: 'Deep-apk'
+    SLACK_API_TOKEN: 'xoxp-929407804161-941770225558-931346518001-c7e1d9ac7da10763c84094109931a528'
+    SLACK_CHANNEL_ID: 'CTPNN7N3G'
+    REKOGNITION_COLLECTION_ID: 'deeplensapk'
+# you can add packaging information here
+#package:
+#  include:
+#    - include-me.py
+#    - include-me-dir/**
+#  exclude:
+#    - exclude-me.py
+#    - exclude-me-dir/** 
+
+
+functions:
+  guess:
+    handler: handler.guess
+    events:
+      - s3:
+          bucket: 'Deep-apk'
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: incoming/
+  unknown:
+    handler: handler.unknown
+    events:
+      - s3:
+          bucket: 'Deep-apk'
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: unknown/
+  train:
+    handler: handler.train
+    events:
+      - http:
+          path: faces/train
+          method: post 
+
+  # find person, function for greengrass device
+  find-person:
+    handler: find_person.function_handler
+
+# resources:
+#   Resources:
+#     S3BucketDoormanfaces:
+#       Type: AWS::S3::Bucket 
+#       Properties:
+#         BucketName: ${env:BUCKET_NAME}
+#         # add additional custom bucket configuration here
+#
+plugins:
+  - serverless-python-requirements
