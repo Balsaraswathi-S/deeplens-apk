@@ -43,10 +43,10 @@ provider:
 
 # you can define service wide environment variables here
   environment:
-    BUCKET_NAME: 'Deep-apk'
+    BUCKET_NAME: 'lensapk'
     SLACK_API_TOKEN: 'xoxp-929407804161-941770225558-931346518001-c7e1d9ac7da10763c84094109931a528'
     SLACK_CHANNEL_ID: 'CTPNN7N3G'
-    REKOGNITION_COLLECTION_ID: 'deeplensapk'
+    REKOGNITION_COLLECTION_ID: 'deep-apk'
 # you can add packaging information here
 #package:
 #  include:
@@ -62,7 +62,7 @@ functions:
     handler: handler.guess
     events:
       - s3:
-          bucket: 'Deep-apk'
+          bucket: 'lensapk'
           event: s3:ObjectCreated:*
           rules:
             - prefix: incoming/
@@ -70,7 +70,7 @@ functions:
     handler: handler.unknown
     events:
       - s3:
-          bucket: 'Deep-apk'
+          bucket: 'lensapk'
           event: s3:ObjectCreated:*
           rules:
             - prefix: unknown/
