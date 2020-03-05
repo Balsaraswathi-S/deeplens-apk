@@ -1,6 +1,6 @@
 
 
-service: doorman
+service: Deeplens
 
 provider:
   name: aws
@@ -94,4 +94,4 @@ functions:
 #         # add additional custom bucket configuration here
 #
 plugins:
-  - serverless-python-requirements
+  - serverless-python-requirementsThis will remove all folders within the installed requiremeThis will remove all folders within the installed This This will remove all folders within the installed requiremeThis will remove all folders within the installed requiremeThis will remove all folders within the installed requiremeThis will remove all folders within the installed requiremeThis will remove all folders within the installed requiremeThis will remove all folders within the installed requiremeThis will remove all folders within the installed requirements that match the names in slimPatternsnts that match the names in slimPatternsnts that match the names in slimPatternsnts that match the names in slimPatternsnts that match the names in slimPatternsnts that match the names in slimPatternsnts that match the names in slimPatterns will remove all folders within the installed requirements that match the names in slimPatterns remove all folders within the installed requirements that match the names in slimPatterns will remove all folders within the installed requirements that match the names in slimPatternsnts that match the names in slimPatternsnts that match the names in slimPatterns
